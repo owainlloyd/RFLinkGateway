@@ -10,3 +10,5 @@ bin
 lib
 include
 .Python
+config.json
+config.json

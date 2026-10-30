@@ -43,7 +43,6 @@ def main():
     mqtt.daemon = True
     mqtt.start()
 
-    # wait a second before sending first task
     time.sleep(1)
     options.parse_command_line()
 

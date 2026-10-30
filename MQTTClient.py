@@ -32,14 +32,15 @@ class MQTTClient(multiprocessing.Process):
         self.connect_retry_counter = 0
         self.mqttDataPrefix = self.config['mqtt_prefix']
         self.mqttDataFormat = self.config['mqtt_format']
-        self._mqttConn = mqtt.Client(client_id='RFLinkGateway')
-        self._mqttConn.username_pw_set(self.config['mqtt_user'], self.config['mqtt_password'])
-
-        self._mqttConn.on_disconnect = self._on_disconnect
-        self._mqttConn.on_publish = self._on_publish
-        self._mqttConn.on_message = self._on_message
-        self._mqttConn.on_connect = self._on_connect
-        self.connect(self.config)
+        
+        #move this to run to prevent thread issues with the MQTT client
+        #self._mqttConn = mqtt.Client(client_id='RFLinkGateway')      
+        #self._mqttConn.username_pw_set(self.config['mqtt_user'], self.config['mqtt_password'])
+        #self._mqttConn.on_disconnect = self._on_disconnect
+        #self._mqttConn.on_publish = self._on_publish
+        #self._mqttConn.on_message = self._on_message
+        #self._mqttConn.on_connect = self._on_connect
+       # self.connect(self.config)
         
 
     def connect (self,config) -> None:
@@ -99,6 +100,15 @@ class MQTTClient(multiprocessing.Process):
             self.__messageQ.put(task)
 
     def run(self):
+        #OL Added
+        self._mqttConn = mqtt.Client(client_id='RFLinkGateway')      
+        self._mqttConn.username_pw_set(self.config['mqtt_user'], self.config['mqtt_password'])
+        self._mqttConn.on_disconnect = self._on_disconnect
+        self._mqttConn.on_publish = self._on_publish
+        self._mqttConn.on_message = self._on_message
+        self._mqttConn.on_connect = self._on_connect
+        self.connect(self.config)
+
         while True:
             if self.client_connected == False:
                 #TODO Add reconnection limit
