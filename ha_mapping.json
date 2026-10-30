@@ -1,0 +1,25 @@
+{
+  "families": {
+    "Alecto V4": {
+      "device_type": "temperature_humidity",
+      "manufacturer": "Alecto",
+      "model": "V4"
+    }
+  },
+  "device_types": {
+    "temperature_humidity": {
+      "parameters": {
+        "TEMP": {
+          "device_class": "temperature",
+          "unit": "°C",
+          "state_class": "measurement"
+        },
+        "HUM": {
+          "device_class": "humidity",
+          "unit": "%",
+          "state_class": "measurement"
+        }
+      }
+    }
+  }
+}
